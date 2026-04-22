@@ -37,16 +37,28 @@ public class HomeActivity extends AppCompatActivity {
         // Dữ liệu gốc - Đã cập nhật tham số Category (Văn học, Khoa học,...)
         arrayBook.add(new Book("Đắc Nhân Tâm", "Dale Carnegie", "Miễn phí", R.drawable.book1, "Văn học"));
         arrayBook.add(new Book("Nhà Giả Kim", "Paulo Coelho", "50.000đ", R.drawable.book2, "Văn học"));
-        arrayBook.add(new Book("Tôi Thấy Hoa Vàng Trên Cỏ Xanh", "Nguyễn Nhật Ánh", "Miễn phí", R.drawable.book3, "Văn học"));
-        arrayBook.add(new Book("Số Đỏ", "Vũ Trọng Phụng", "45.000đ", R.drawable.book1, "Văn học"));
-        arrayBook.add(new Book("Mắt Biếc", "Nguyễn Nhật Ánh", "Miễn phí", R.drawable.book2, "Văn học"));
-        arrayBook.add(new Book("Lược Sử Thời Gian", "Stephen Hawking", "120.000đ", R.drawable.book3, "Khoa học"));
+        arrayBook.add(new Book("Tôi Thấy Hoa Vàng Trên Cỏ Xanh", "Nguyễn Nhật Ánh", "Miễn phí", R.drawable.book9, "Văn học"));
+        arrayBook.add(new Book("Số Đỏ", "Vũ Trọng Phụng", "45.000đ", R.drawable.book4, "Văn học"));
+        arrayBook.add(new Book("Mắt Biếc", "Nguyễn Nhật Ánh", "Miễn phí", R.drawable.book10, "Văn học"));
+        arrayBook.add(new Book("Lược Sử Thời Gian", "Stephen Hawking", "120.000đ", R.drawable.book11, "Khoa học"));
 
         // filteredList sẽ chứa dữ liệu hiển thị trên ListView
         filteredList = new ArrayList<>(arrayBook);
 
         adapter = new BookAdapter(this, R.layout.item_book, filteredList);
         lvBooks.setAdapter(adapter);
+
+        // Sự kiện click vào item sách
+        lvBooks.setOnItemClickListener((parent, view, position, id) -> {
+            Book selectedBook = filteredList.get(position);
+            Intent intent = new Intent(HomeActivity.this, BookDetailActivity.class);
+            intent.putExtra("title", selectedBook.getTitle());
+            intent.putExtra("author", selectedBook.getAuthor());
+            intent.putExtra("price", selectedBook.getPrice());
+            intent.putExtra("category", selectedBook.getCategory());
+            intent.putExtra("image", selectedBook.getImageResource());
+            startActivity(intent);
+        });
 
         // Lắng nghe sự kiện thay đổi text trong ô tìm kiếm
         edtSearch.addTextChangedListener(new TextWatcher() {
@@ -71,11 +83,15 @@ public class HomeActivity extends AppCompatActivity {
                 Intent intent = new Intent(HomeActivity.this, BookActivity.class);
                 startActivity(intent);
                 return true;
-            } else if (id == R.id.navigation_history) {
+            } else if (id == R.id.navigation_cart) {
+                Intent intent = new Intent(HomeActivity.this, CartActivity.class);
+                startActivity(intent);
                 return true;
             } else if (id == R.id.navigation_message) {
                 return true;
             } else if (id == R.id.navigation_info) {
+                Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
+                startActivity(intent);
                 return true;
             }
             return false;

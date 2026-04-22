@@ -92,14 +92,26 @@ public class BookActivity extends AppCompatActivity {
         allBooks.add(new Book("Đắc Nhân Tâm", "Dale Carnegie", "Miễn phí", R.drawable.book1, "Văn học"));
         allBooks.add(new Book("Nhà Giả Kim", "Paulo Coelho", "50.000đ", R.drawable.book2, "Văn học"));
         allBooks.add(new Book("Sự im lặng của bầy cừu", "Thomas Harris", "90.000đ", R.drawable.book3, "Trinh thám"));
-        allBooks.add(new Book("Số Đỏ", "Vũ Trọng Phụng", "45.000đ", R.drawable.book1, "Văn học"));
-        allBooks.add(new Book("IT - Gã hề ma quái", "Stephen King", "120.000đ", R.drawable.book2, "Kinh dị"));
-        allBooks.add(new Book("Kinh tế học cơ bản", "Thomas Sowell", "200.000đ", R.drawable.book3, "Kinh tế"));
-        allBooks.add(new Book("Án mạng trên chuyến tàu", "Agatha Christie", "75.000đ", R.drawable.book1, "Trinh thám"));
-        allBooks.add(new Book("Lời nguyền", "R.L. Stine", "Miễn phí", R.drawable.book2, "Kinh dị"));
+        allBooks.add(new Book("Số Đỏ", "Vũ Trọng Phụng", "45.000đ", R.drawable.book4, "Văn học"));
+        allBooks.add(new Book("IT - Gã hề ma quái", "Stephen King", "120.000đ", R.drawable.book5, "Kinh dị"));
+        allBooks.add(new Book("Kinh tế học cơ bản", "Thomas Sowell", "200.000đ", R.drawable.book6, "Kinh tế"));
+        allBooks.add(new Book("Án mạng trên chuyến tàu", "Agatha Christie", "75.000đ", R.drawable.book7, "Trinh thám"));
+        allBooks.add(new Book("Lời nguyền", "R.L. Stine", "Miễn phí", R.drawable.book8, "Kinh dị"));
         
         adapter = new BookAdapter(this, R.layout.item_book, currentPageBooks);
         lvAllBooks.setAdapter(adapter);
+
+        // Thêm sự kiện click vào item sách để xem chi tiết
+        lvAllBooks.setOnItemClickListener((parent, view, position, id) -> {
+            Book selectedBook = currentPageBooks.get(position);
+            Intent intent = new Intent(BookActivity.this, BookDetailActivity.class);
+            intent.putExtra("title", selectedBook.getTitle());
+            intent.putExtra("author", selectedBook.getAuthor());
+            intent.putExtra("price", selectedBook.getPrice());
+            intent.putExtra("category", selectedBook.getCategory());
+            intent.putExtra("image", selectedBook.getImageResource());
+            startActivity(intent);
+        });
     }
 
     private void filterByCategory(String category) {
@@ -170,6 +182,14 @@ public class BookActivity extends AppCompatActivity {
                 finish();
                 return true;
             } else if (id == R.id.navigation_books) {
+                return true;
+            } else if (id == R.id.navigation_cart) {
+                Intent intent = new Intent(BookActivity.this, CartActivity.class);
+                startActivity(intent);
+                return true;
+            } else if (id == R.id.navigation_info) {
+                startActivity(new Intent(this, ProfileActivity.class));
+                finish();
                 return true;
             }
             return false;
