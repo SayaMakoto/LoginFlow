@@ -1,35 +1,103 @@
 package com.example.hitcapp;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity {
 
-    ListView lvGames;
-    ArrayList<Game> arrayGame;
-    GameAdapter adapter;
+    ListView lvBooks;
+    ArrayList<Book> arrayBook;
+    ArrayList<Book> filteredList;
+    BookAdapter adapter;
+    BottomNavigationView bottomNavigationView;
+    EditText edtSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        lvGames = findViewById(R.id.lvGames);
-        arrayGame = new ArrayList<>();
+        lvBooks = findViewById(R.id.lvBooks);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        edtSearch = findViewById(R.id.edtSearch);
 
-        // Thêm dữ liệu mẫu (Sử dụng icon mặc định vì chưa có ảnh thật)
-        arrayGame.add(new Game("Free Fire", R.drawable.ic_launcher_foreground));
-        arrayGame.add(new Game("PUBG Mobile", R.drawable.ic_launcher_foreground));
-        arrayGame.add(new Game("Call of Duty", R.drawable.ic_launcher_foreground));
-        arrayGame.add(new Game("Liên Quân Mobile", R.drawable.ic_launcher_foreground));
-        arrayGame.add(new Game("Genshin Impact", R.drawable.ic_launcher_foreground));
-        arrayGame.add(new Game("Minecraft", R.drawable.ic_launcher_foreground));
+        bottomNavigationView.setSelectedItemId(R.id.navigation_home);
 
-        adapter = new GameAdapter(this, R.layout.item_game, arrayGame);
-        lvGames.setAdapter(adapter);
+        arrayBook = new ArrayList<>();
+        // Dữ liệu gốc
+        arrayBook.add(new Book("Đắc Nhân Tâm", "Dale Carnegie", "Miễn phí", R.drawable.book1));
+        arrayBook.add(new Book("Nhà Giả Kim", "Paulo Coelho", "50.000đ", R.drawable.book2));
+        arrayBook.add(new Book("Tôi Thấy Hoa Vàng Trên Cỏ Xanh", "Nguyễn Nhật Ánh", "Miễn phí", R.drawable.book3));
+        arrayBook.add(new Book("Số Đỏ", "Vũ Trọng Phụng", "45.000đ", R.drawable.book1));
+        arrayBook.add(new Book("Mắt Biếc", "Nguyễn Nhật Ánh", "Miễn phí", R.drawable.book2));
+        arrayBook.add(new Book("Lược Sử Thời Gian", "Stephen Hawking", "120.000đ", R.drawable.book3));
+
+        // filteredList sẽ chứa dữ liệu hiển thị trên ListView
+        filteredList = new ArrayList<>(arrayBook);
+
+        adapter = new BookAdapter(this, R.layout.item_book, filteredList);
+        lvBooks.setAdapter(adapter);
+
+        // Lắng nghe sự kiện thay đổi text trong ô tìm kiếm
+        edtSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filter(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            if (id == R.id.navigation_home) {
+                // Focus vào Home
+                return true;
+            } else if (id == R.id.navigation_books) {
+                // Focus vào Sách
+                return true;
+            } else if (id == R.id.navigation_history) {
+                // Focus vào Lịch sử
+                return true;
+            } else if (id == R.id.navigation_message) {
+                // Focus vào Thông báo
+                return true;
+            } else if (id == R.id.navigation_info) {
+                // Focus vào Tôi
+                return true;
+            }
+            return false;
+        });
+    }
+
+    // Hàm lọc dữ liệu
+    private void filter(String text) {
+        filteredList.clear();
+        if (text.isEmpty()) {
+            filteredList.addAll(arrayBook);
+        } else {
+            String filterPattern = text.toLowerCase().trim();
+            for (Book item : arrayBook) {
+                // Tìm theo tên sách hoặc tên tác giả
+                if (item.getTitle().toLowerCase().contains(filterPattern) || 
+                    item.getAuthor().toLowerCase().contains(filterPattern)) {
+                    filteredList.add(item);
+                }
+            }
+        }
+        adapter.notifyDataSetChanged(); // Cập nhật lại ListView
     }
 }

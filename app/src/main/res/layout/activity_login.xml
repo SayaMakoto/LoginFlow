@@ -17,7 +17,8 @@
             android:layout_height="90dp"
             android:src="@drawable/ic_launcher_foreground"
             android:layout_marginTop="20dp"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="10dp"
+            android:contentDescription="App Logo"/>
 
         <!-- Title -->
         <TextView
@@ -99,8 +100,6 @@
         </LinearLayout>
 
         <!-- Login Button -->
-
-        <!-- Divider -->
         <Button
             android:layout_width="match_parent"
             android:layout_height="55dp"
@@ -113,6 +112,7 @@
             android:textColor="@android:color/white"
             android:textSize="16sp" />
 
+        <!-- Divider -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -128,25 +128,34 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_margin="12dp"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_margin="10dp"
                 android:background="@drawable/bg_circle"
-                android:src="@drawable/facebook" />
+                android:padding="14dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/facebook"
+                android:contentDescription="Facebook Login"/>
 
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_margin="12dp"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_margin="10dp"
                 android:background="@drawable/bg_circle"
-                android:src="@drawable/google" />
+                android:padding="14dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/google"
+                android:contentDescription="Google Login"/>
 
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_margin="12dp"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_margin="10dp"
                 android:background="@drawable/bg_circle"
-                android:src="@drawable/x" />
+                android:padding="14dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/x"
+                android:contentDescription="X Login"/>
         </LinearLayout>
 
         <!-- Register -->
