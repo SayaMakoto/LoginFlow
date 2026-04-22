@@ -1,5 +1,6 @@
 package com.example.hitcapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -33,13 +34,13 @@ public class HomeActivity extends AppCompatActivity {
         bottomNavigationView.setSelectedItemId(R.id.navigation_home);
 
         arrayBook = new ArrayList<>();
-        // Dữ liệu gốc
-        arrayBook.add(new Book("Đắc Nhân Tâm", "Dale Carnegie", "Miễn phí", R.drawable.book1));
-        arrayBook.add(new Book("Nhà Giả Kim", "Paulo Coelho", "50.000đ", R.drawable.book2));
-        arrayBook.add(new Book("Tôi Thấy Hoa Vàng Trên Cỏ Xanh", "Nguyễn Nhật Ánh", "Miễn phí", R.drawable.book3));
-        arrayBook.add(new Book("Số Đỏ", "Vũ Trọng Phụng", "45.000đ", R.drawable.book1));
-        arrayBook.add(new Book("Mắt Biếc", "Nguyễn Nhật Ánh", "Miễn phí", R.drawable.book2));
-        arrayBook.add(new Book("Lược Sử Thời Gian", "Stephen Hawking", "120.000đ", R.drawable.book3));
+        // Dữ liệu gốc - Đã cập nhật tham số Category (Văn học, Khoa học,...)
+        arrayBook.add(new Book("Đắc Nhân Tâm", "Dale Carnegie", "Miễn phí", R.drawable.book1, "Văn học"));
+        arrayBook.add(new Book("Nhà Giả Kim", "Paulo Coelho", "50.000đ", R.drawable.book2, "Văn học"));
+        arrayBook.add(new Book("Tôi Thấy Hoa Vàng Trên Cỏ Xanh", "Nguyễn Nhật Ánh", "Miễn phí", R.drawable.book3, "Văn học"));
+        arrayBook.add(new Book("Số Đỏ", "Vũ Trọng Phụng", "45.000đ", R.drawable.book1, "Văn học"));
+        arrayBook.add(new Book("Mắt Biếc", "Nguyễn Nhật Ánh", "Miễn phí", R.drawable.book2, "Văn học"));
+        arrayBook.add(new Book("Lược Sử Thời Gian", "Stephen Hawking", "120.000đ", R.drawable.book3, "Khoa học"));
 
         // filteredList sẽ chứa dữ liệu hiển thị trên ListView
         filteredList = new ArrayList<>(arrayBook);
@@ -64,19 +65,17 @@ public class HomeActivity extends AppCompatActivity {
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
             if (id == R.id.navigation_home) {
-                // Focus vào Home
                 return true;
             } else if (id == R.id.navigation_books) {
-                // Focus vào Sách
+                // CHUYỂN SANG TRANG SÁCH
+                Intent intent = new Intent(HomeActivity.this, BookActivity.class);
+                startActivity(intent);
                 return true;
             } else if (id == R.id.navigation_history) {
-                // Focus vào Lịch sử
                 return true;
             } else if (id == R.id.navigation_message) {
-                // Focus vào Thông báo
                 return true;
             } else if (id == R.id.navigation_info) {
-                // Focus vào Tôi
                 return true;
             }
             return false;
