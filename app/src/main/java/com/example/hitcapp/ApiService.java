@@ -17,6 +17,9 @@ public interface ApiService {
     @PUT("user/update")
     Call<UserResponse> updateUser(@Body User user);
 
+    @POST("user/change-password")
+    Call<UserResponse> changePassword(@Body PasswordChangeRequest request);
+
     @DELETE("user/delete/{id}")
     Call<UserResponse> deleteUser(@Path("id") int id);
 }

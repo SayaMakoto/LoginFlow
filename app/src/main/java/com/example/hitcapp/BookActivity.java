@@ -187,6 +187,10 @@ public class BookActivity extends AppCompatActivity {
                 Intent intent = new Intent(BookActivity.this, CartActivity.class);
                 startActivity(intent);
                 return true;
+            } else if (id == R.id.navigation_message) {
+                startActivity(new Intent(this, NotificationActivity.class));
+                finish();
+                return true;
             } else if (id == R.id.navigation_info) {
                 startActivity(new Intent(this, ProfileActivity.class));
                 finish();

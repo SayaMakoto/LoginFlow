@@ -8,13 +8,15 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "UserDB";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String TABLE_USERS = "users";
 
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_USERNAME = "username";
     private static final String COLUMN_EMAIL = "email";
     private static final String COLUMN_PASSWORD = "password";
+    private static final String COLUMN_PHONE = "phone";
+    private static final String COLUMN_ADDRESS = "address";
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -26,7 +28,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + COLUMN_USERNAME + " TEXT,"
                 + COLUMN_EMAIL + " TEXT,"
-                + COLUMN_PASSWORD + " TEXT" + ")";
+                + COLUMN_PASSWORD + " TEXT,"
+                + COLUMN_PHONE + " TEXT,"
+                + COLUMN_ADDRESS + " TEXT" + ")";
         db.execSQL(CREATE_USERS_TABLE);
     }
 
@@ -42,6 +46,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_USERNAME, user.getUsername());
         values.put(COLUMN_EMAIL, user.getEmail());
         values.put(COLUMN_PASSWORD, user.getPassword());
+        values.put(COLUMN_PHONE, user.getPhone());
+        values.put(COLUMN_ADDRESS, user.getAddress());
 
         db.insert(TABLE_USERS, null, values);
         db.close();
@@ -65,6 +71,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_USERNAME, user.getUsername());
         values.put(COLUMN_EMAIL, user.getEmail());
         values.put(COLUMN_PASSWORD, user.getPassword());
+        values.put(COLUMN_PHONE, user.getPhone());
+        values.put(COLUMN_ADDRESS, user.getAddress());
 
         return db.update(TABLE_USERS, values, COLUMN_ID + " = ?",
                 new String[]{String.valueOf(user.getId())});
@@ -79,7 +87,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public User getUser(String username) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(TABLE_USERS, new String[]{COLUMN_ID, COLUMN_USERNAME, COLUMN_EMAIL, COLUMN_PASSWORD},
+        Cursor cursor = db.query(TABLE_USERS, new String[]{COLUMN_ID, COLUMN_USERNAME, COLUMN_EMAIL, COLUMN_PASSWORD, COLUMN_PHONE, COLUMN_ADDRESS},
                 COLUMN_USERNAME + "=?", new String[]{username}, null, null, null);
         if (cursor != null && cursor.moveToFirst()) {
             User user = new User(
@@ -88,6 +96,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     cursor.getString(2),
                     cursor.getString(3)
             );
+            user.setPhone(cursor.getString(4));
+            user.setAddress(cursor.getString(5));
             cursor.close();
             db.close();
             return user;

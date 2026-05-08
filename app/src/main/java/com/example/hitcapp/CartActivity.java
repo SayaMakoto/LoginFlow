@@ -1,5 +1,6 @@
 package com.example.hitcapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -33,9 +34,8 @@ public class CartActivity extends AppCompatActivity {
             if (CartManager.getCartItems().isEmpty()) {
                 Toast.makeText(this, "Giỏ hàng của bạn đang trống!", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, "Thanh toán thành công!", Toast.LENGTH_SHORT).show();
-                CartManager.getCartItems().clear();
-                updateCart();
+                Intent intent = new Intent(CartActivity.this, PaymentActivity.class);
+                startActivity(intent);
             }
         });
     }

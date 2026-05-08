@@ -110,6 +110,7 @@ public class LoginActivity extends AppCompatActivity {
         // Lưu vào SharedPreferences để dùng ở các màn hình khác
         SharedPreferences sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt("id", user.getId());
         editor.putString("username", user.getUsername());
         editor.putString("email", user.getEmail());
         editor.apply();

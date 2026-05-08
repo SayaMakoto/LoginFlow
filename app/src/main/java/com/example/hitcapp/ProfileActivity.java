@@ -16,6 +16,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     TextView txtProfileName, txtProfileEmail;
     Button btnLogout;
+    android.widget.LinearLayout btnGoToEditProfile;
     BottomNavigationView bottomNavigationView;
 
     @Override
@@ -26,6 +27,11 @@ public class ProfileActivity extends AppCompatActivity {
         initViews();
         loadUserData();
         setupBottomNav();
+
+        btnGoToEditProfile.setOnClickListener(v -> {
+            Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
+            startActivity(intent);
+        });
 
         btnLogout.setOnClickListener(v -> {
             // Xử lý đăng xuất
@@ -39,10 +45,17 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadUserData();
+    }
+
     private void initViews() {
         txtProfileName = findViewById(R.id.txtProfileName);
         txtProfileEmail = findViewById(R.id.txtProfileEmail);
         btnLogout = findViewById(R.id.btnLogout);
+        btnGoToEditProfile = findViewById(R.id.btnGoToEditProfile);
         bottomNavigationView = findViewById(R.id.bottom_navigation);
     }
 
@@ -69,6 +82,10 @@ public class ProfileActivity extends AppCompatActivity {
                 return true;
             } else if (id == R.id.navigation_cart) {
                 startActivity(new Intent(this, CartActivity.class));
+                finish();
+                return true;
+            } else if (id == R.id.navigation_message) {
+                startActivity(new Intent(this, NotificationActivity.class));
                 finish();
                 return true;
             } else if (id == R.id.navigation_info) {

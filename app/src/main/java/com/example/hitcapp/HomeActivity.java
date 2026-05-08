@@ -88,6 +88,8 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             } else if (id == R.id.navigation_message) {
+                Intent intent = new Intent(HomeActivity.this, NotificationActivity.class);
+                startActivity(intent);
                 return true;
             } else if (id == R.id.navigation_info) {
                 Intent intent = new Intent(HomeActivity.this, ProfileActivity.class);
